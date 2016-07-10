@@ -19,14 +19,14 @@ var sampleMap = [
   [0, 0, 0, 0, 0, 0],
   [0, 0, 1, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
+  [1, 1, 1, 1, 1, 1],
 ];
 
 var createMap = function(matrix) {
   window.arr = matrix.map(function(arr, yIdx) {
     return arr.map(function(coord, xIdx) {
       if (coord === 1) {
-        var geometry = new THREE.BoxGeometry(10, 10, 10);
+        var geometry = new THREE.BoxGeometry(10, 3, 10);
         var material = new THREE.MeshNormalMaterial();
         var segment = new THREE.Mesh(geometry, material);
         segment.position.set(xIdx*10, 0, yIdx*10);
@@ -59,16 +59,17 @@ var checkCollision = function() {
     }
   }
   return false;
-};
+}
+var map = new THREE.TextureLoader().load( "formerhuman.png" );
+var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff, fog: true } );
+var sprite = new THREE.Sprite( material );
+scene.add( sprite );;
 
 var player = createPlayer();
 createMap(sampleMap);
-scene.add(camera);
 camera.add(player);
 
 var cameraBBox = new THREE.BoundingBoxHelper(camera);
-var axisHelper = new THREE.AxisHelper( 5 );
-scene.add( axisHelper );
 
 function render() {
   // This boolean is for mitigating getting stuck on walls
@@ -78,10 +79,12 @@ function render() {
   if (checkCollision() && !collided) {
     console.log('collision');
     collided = true;
+
     controls.moveForward = false;
     controls.moveLeft = false;
     controls.moveRight = false;
     controls.moveBackward = false;
+
     controls.update(1);
   } else {
     console.log('no collision');
