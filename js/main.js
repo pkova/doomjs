@@ -71,10 +71,18 @@ var axisHelper = new THREE.AxisHelper( 5 );
 scene.add( axisHelper );
 
 function render() {
+  // This boolean is for mitigating getting stuck on walls
+  var collided = false;
 	requestAnimationFrame(render);
 	renderer.render(scene, camera);
-  if (checkCollision()) {
+  if (checkCollision() && !collided) {
     console.log('collision');
+    collided = true;
+    controls.moveForward = false;
+    controls.moveLeft = false;
+    controls.moveRight = false;
+    controls.moveBackward = false;
+    controls.update(1);
   } else {
     console.log('no collision');
     controls.update(1);
