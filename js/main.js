@@ -40,7 +40,7 @@ var walls = [];
 var sampleMap = [
   [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 'X', 0, 0, 0, 0, 0],
-  [1, 0, 1, 0, 'X', 0, 0, 0, 0, 0],
+  [1, 0, 1, 'H', 'X', 0, 0, 0, 0, 0],
   [1, 0, 0, 0, 'X', 'X', 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
@@ -120,6 +120,8 @@ var createMap = function(matrix) {
         walls.push(segment);
       } else if (coord === 'X') {
         createEnemy(xIdx*10, 0, yIdx*10);
+      } else if (coord === 'H') {
+        camera.position.set(xIdx*10, camera.position.y, yIdx*10);
       }
     });
   });
