@@ -39,6 +39,7 @@ var heroHurtSound = new Howl({
 var hurtSounds = [hurtSound1, hurtSound2, hurtSound3];
 
 var alreadyPlayed = false;
+var gameOver = false;
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -142,6 +143,9 @@ var enemyShot = function() {
 var decrementHealth = function(amount) {
   var health = parseInt(document.querySelector('span').innerText, 10);
   health = health - amount;
+  if (health <= 0) {
+    gameOver = true;
+  }
   document.querySelector('span').innerText = health;
 };
 
@@ -203,24 +207,29 @@ var cameraBBox = new THREE.BoundingBoxHelper(camera);
 
 
 function render() {
-  // This boolean is for mitigating getting stuck on walls
-  var collided = false;
-	requestAnimationFrame(render);
-	renderer.render(scene, camera);
-  if (checkCollision() && !collided) {
-    console.log('collision');
-    collided = true;
+  if (!gameOver) {
+    // This boolean is for mitigating getting stuck on walls
+    var collided = false;
+	  requestAnimationFrame(render);
+	  renderer.render(scene, camera);
+    if (checkCollision() && !collided) {
+      console.log('collision');
+      collided = true;
 
-    controls.moveForward = false;
-    controls.moveLeft = false;
-    controls.moveRight = false;
-    controls.moveBackward = false;
+      controls.moveForward = false;
+      controls.moveLeft = false;
+      controls.moveRight = false;
+      controls.moveBackward = false;
 
-    controls.update(1);
+      controls.update(1);
+    } else {
+      // console.log('no collision');
+      controls.update(1);
+    }
+    enemyAI();
   } else {
-    // console.log('no collision');
-    controls.update(1);
+    document.querySelector('h1').style.display = '';
+    document.querySelector('h2').style.display = '';
   }
-  enemyAI();
 }
 render();
