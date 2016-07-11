@@ -77,7 +77,11 @@ window.shoot = function() {
   var intersects = raycaster.intersectObjects(scene.children);
   if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
     console.log('Enemy hit!');
-    scene.remove(intersects[0].object);
+    intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
+    intersects[0].object.translateY(-0.8);
+    enemies = enemies.filter(function(e) {
+      return e.uuid !== intersects[0].object.uuid;
+    });
   }
   console.log(intersects);
 };
