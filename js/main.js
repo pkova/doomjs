@@ -61,6 +61,15 @@ var createEnemy = function(x, y, z) {
 
 window.shoot = function() {
   pistolSound.play();
+
+  document.querySelector('.gun').style.display = 'none';
+  document.querySelector('.muzzle').style.display = '';
+
+  window.setTimeout(function() {
+    document.querySelector('.muzzle').style.display = 'none';
+    document.querySelector('.gun').style.display = '';
+  }, 100)
+
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   var intersects = raycaster.intersectObjects(scene.children);
   if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
