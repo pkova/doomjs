@@ -9,6 +9,10 @@ controls.lookVertical = false;
 
 camera.position.z = 5;
 
+var pistolSound = new Howl({
+  urls: ['pistol.m4a']
+});
+
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
@@ -56,6 +60,7 @@ var createEnemy = function(x, y, z) {
 };
 
 window.shoot = function() {
+  pistolSound.play();
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   var intersects = raycaster.intersectObjects(scene.children);
   if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
