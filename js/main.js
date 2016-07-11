@@ -11,7 +11,6 @@ controls.noFly = true;
 controls.lookVertical = false;
 controls.mouseLook = true;
 
-camera.position.z = 5;
 
 var pistolSound = new Howl({
   urls: ['pistol.m4a']
@@ -105,7 +104,7 @@ window.shoot = function() {
     console.log('Enemy hit!');
     hurtSounds[Math.floor(Math.random()*hurtSounds.length)].play();
     intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
-    intersects[0].object.translateY(-0.8);
+    intersects[0].object.translateY(-0.45);
     enemies = enemies.filter(function(e) {
       return e.uuid !== intersects[0].object.uuid;
     });
@@ -132,12 +131,10 @@ var enemyShot = function() {
   console.log(seenEnemies);
   seenEnemies.forEach(function(enemy) {
     enemyShootSound.play();
-    if (camera.position.distanceTo(enemy.position) < 10) {
-      var chanceToHit = 0.5;
-      if (Math.random() > chanceToHit) {
-        heroHurtSound.play();
-        decrementHealth(getRandomInt(5, 16));
-      }
+    var chanceToHit = 0.5;
+    if (Math.random() > chanceToHit) {
+      heroHurtSound.play();
+      decrementHealth(getRandomInt(5, 16));
     }
   });
 };
@@ -155,7 +152,7 @@ var getRandomInt = function(min, max) {
 var checkFrustum = function() {
   frustum.setFromMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
   return enemies.filter(function(enemy) {
-    return frustum.intersectsSprite(enemy);
+    return frustum.intersectsSprite(enemy) && camera.position.distanceTo(enemy.position) < 10;
   });
 };
 
@@ -173,14 +170,19 @@ var createMap = function(matrix) {
       } else if (coord === 'X') {
         createEnemy(xIdx*10, 0, yIdx*10);
       } else if (coord === 'H') {
-        camera.position.set(xIdx*10, camera.position.y, yIdx*10);
+        camera.position.set(xIdx*10, 0, yIdx*10);
       }
     });
   });
 
   var createPlane = function(color, height) {
+    var texture = THREE.ImageUtils.loadTexture('floortexture.jpg');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(750, 750);
+
     var geometry = new THREE.PlaneGeometry( 1000, 1000, 1, 1 );
-    var material = new THREE.MeshBasicMaterial( { color: color } );
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
     var floor = new THREE.Mesh( geometry, material );
     floor.material.side = THREE.DoubleSide;
     floor.position.setY(height);
@@ -189,7 +191,7 @@ var createMap = function(matrix) {
   };
 
   // Floor
-  createPlane(0x0000ff, -3);
+  createPlane(0x0000ff, -0.5);
   //Ceiling
   createPlane(0xff0000, 3);
 };
