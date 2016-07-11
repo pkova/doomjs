@@ -109,6 +109,7 @@ var enemyAI = function() {
 };
 
 var createMap = function(matrix) {
+  // Walls
   window.arr = matrix.map(function(arr, yIdx) {
     return arr.map(function(coord, xIdx) {
       if (coord === 1) {
@@ -123,6 +124,21 @@ var createMap = function(matrix) {
       }
     });
   });
+
+  var createPlane = function(color, height) {
+    var geometry = new THREE.PlaneGeometry( 1000, 1000, 1, 1 );
+    var material = new THREE.MeshBasicMaterial( { color: color } );
+    var floor = new THREE.Mesh( geometry, material );
+    floor.material.side = THREE.DoubleSide;
+    floor.position.setY(height);
+    floor.rotation.set(-Math.PI/2, Math.PI/2000, Math.PI);
+    scene.add( floor );
+  };
+
+  // Floor
+  createPlane(0x0000ff, -3);
+  //Ceiling
+  createPlane(0xff0000, 3);
 };
 
 var player = createPlayer();
@@ -130,13 +146,6 @@ createMap(sampleMap);
 camera.add(player);
 var cameraBBox = new THREE.BoundingBoxHelper(camera);
 
-var geometry = new THREE.PlaneGeometry( 1000, 1000, 1, 1 );
-var material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
-var floor = new THREE.Mesh( geometry, material );
-floor.material.side = THREE.DoubleSide;
-floor.position.setY(-3);
-floor.rotation.set(-Math.PI/2, Math.PI/2000, Math.PI); 
-scene.add( floor );
 
 function render() {
   // This boolean is for mitigating getting stuck on walls
