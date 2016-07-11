@@ -33,6 +33,10 @@ var enemyShootSound = new Howl({
   urls: ['enemyshot.m4a']
 });
 
+var heroHurtSound = new Howl({
+  urls: ['injured.wav']
+});
+
 var hurtSounds = [hurtSound1, hurtSound2, hurtSound3];
 
 var alreadyPlayed = false;
@@ -116,6 +120,7 @@ var enemyAI = function() {
   if (Math.floor(clock.getElapsedTime()) % 5 === 0 && !alreadyPlayed) {
     enemyShootSound.play();
     alreadyPlayed = true;
+    enemyShot();
   }
   enemies.forEach(function(enemy) {
     enemy.lookAt(camera.position);
@@ -124,14 +129,19 @@ var enemyAI = function() {
 };
 
 var enemyShot = function() {
-  enemies.forEach(function(enemy) {
+  var seenEnemies = checkFrustum();
+  console.log(seenEnemies);
+  seenEnemies.forEach(function(enemy) {
+    if (camera.position.distanceTo(enemy.position) < 10) {
+      heroHurtSound.play();
+    }
   });
 };
 
 var checkFrustum = function() {
   frustum.setFromMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
-  enemies.forEach(function(enemy, i) {
-    console.log('Enemy at index', i, 'visible state: ', frustum.intersectsSprite(enemy));
+  return enemies.filter(function(enemy) {
+    return frustum.intersectsSprite(enemy);
   });
 };
 
