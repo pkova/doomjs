@@ -52,9 +52,9 @@ var walls = [];
 
 var sampleMap = [
   [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 0, 0, 'X', 0, 0, 0, 0, 0],
-  [1, 0, 1, 'H', 'X', 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 'X', 'X', 0, 0, 0, 0],
+  [0, 0, 0, 0, 'X', 'X', 'X', 'X', 0, 0],
+  [1, 0, 1, 'H', 'X', 1, 'X', 0, 0, 0],
+  [1, 0, 0, 0, 'X', 1, 'X', 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
@@ -100,17 +100,29 @@ window.shoot = function() {
   }, 100);
 
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
-  var intersects = raycaster.intersectObjects(enemies);
-  if (intersects.length !== 0) {
+  var intersects = raycaster.intersectObjects(scene.children);
+  intersects = intersects.map(function(e) {
+    var result = e;
+    if (e.object.type === "Sprite") {
+      // Distance is calculated from ray center by default for sprites
+      result.distance = raycaster.ray.origin.distanceTo(e.point);
+    }
+    return result;
+  });
+
+  intersects.sort(function(a, b) {
+    return a.distance - b.distance;
+  });
+
+  if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
     console.log('Enemy hit!');
     hurtSounds[Math.floor(Math.random()*hurtSounds.length)].play();
     intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
-    intersects[0].object.translateY(-0.45);
+    intersects[0].object.translateY(-0.5);
     enemies = enemies.filter(function(e) {
       return e.uuid !== intersects[0].object.uuid;
     });
   }
-  console.log(intersects);
 };
 
 var enemyAI = function() {
@@ -227,6 +239,7 @@ function render() {
       controls.update(1);
     }
     enemyAI();
+    scene.updateMatrixWorld();
   } else {
     document.querySelector('h1').style.display = '';
     document.querySelector('h2').style.display = '';
