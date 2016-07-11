@@ -86,8 +86,8 @@ window.shoot = function() {
   }, 100);
 
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
-  var intersects = raycaster.intersectObjects(scene.children);
-  if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
+  var intersects = raycaster.intersectObjects(enemies);
+  if (intersects.length !== 0) {
     console.log('Enemy hit!');
     hurtSounds[Math.floor(Math.random()*hurtSounds.length)].play();
     intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
