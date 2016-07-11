@@ -118,7 +118,6 @@ var enemyAI = function() {
     alreadyPlayed = false;
   }
   if (Math.floor(clock.getElapsedTime()) % 5 === 0 && !alreadyPlayed) {
-    enemyShootSound.play();
     alreadyPlayed = true;
     enemyShot();
   }
@@ -132,10 +131,25 @@ var enemyShot = function() {
   var seenEnemies = checkFrustum();
   console.log(seenEnemies);
   seenEnemies.forEach(function(enemy) {
+    enemyShootSound.play();
     if (camera.position.distanceTo(enemy.position) < 10) {
-      heroHurtSound.play();
+      var chanceToHit = 0.5;
+      if (Math.random() > chanceToHit) {
+        heroHurtSound.play();
+        decrementHealth(getRandomInt(5, 16));
+      }
     }
   });
+};
+
+var decrementHealth = function(amount) {
+  var health = parseInt(document.querySelector('span').innerText, 10);
+  health = health - amount;
+  document.querySelector('span').innerText = health;
+};
+
+var getRandomInt = function(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 };
 
 var checkFrustum = function() {
