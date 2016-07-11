@@ -1,6 +1,8 @@
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 var controls = new THREE.FirstPersonControls( camera );
+var clock = new THREE.Clock();
+clock.start();
 
 controls.movementSpeed = 0.1;
 controls.lookSpeed = 0.01;
@@ -26,7 +28,13 @@ var hurtSound3 = new Howl({
   urls: ['hurtsound3.m4a']
 });
 
+var enemyShootSound = new Howl({
+  urls: ['enemyshot.m4a']
+});
+
 var hurtSounds = [hurtSound1, hurtSound2, hurtSound3];
+
+var alreadyPlayed = false;
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -101,6 +109,13 @@ window.shoot = function() {
 };
 
 var enemyAI = function() {
+  if (Math.floor(clock.getElapsedTime()) % 5 === 1) {
+    alreadyPlayed = false;
+  }
+  if (Math.floor(clock.getElapsedTime()) % 5 === 0 && !alreadyPlayed) {
+    enemyShootSound.play();
+    alreadyPlayed = true;
+  }
   enemies.forEach(function(enemy) {
     enemy.lookAt(camera.position);
     enemy.translateZ(0.01);
