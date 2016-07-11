@@ -142,6 +142,8 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 		switch ( event.keyCode ) {
 
+      case 17: /*ctrl*/ window.shoot(); break;
+
 			case 38: /*up*/
 			case 87: /*W*/ this.moveForward = true; break;
 

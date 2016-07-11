@@ -13,6 +13,8 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
+var raycaster = new THREE.Raycaster();
+
 var sampleMap = [
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0],
@@ -58,13 +60,19 @@ var checkCollision = function() {
     }
   }
   return false;
-}
+};
 
 var createEnemy = function() {
   var map = new THREE.TextureLoader().load( "formerhuman.png" );
   var material = new THREE.SpriteMaterial( { map: map } );
   var sprite = new THREE.Sprite( material );
   scene.add( sprite );;
+};
+
+window.shoot = function() {
+  raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+  var intersects = raycaster.intersectObjects(scene.children);
+  console.log(intersects);
 };
 
 var player = createPlayer();
