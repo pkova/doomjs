@@ -13,6 +13,20 @@ var pistolSound = new Howl({
   urls: ['pistol.m4a']
 });
 
+var hurtSound1 = new Howl({
+  urls: ['hurtsound1.m4a']
+});
+
+var hurtSound2 = new Howl({
+  urls: ['hurtsound2.m4a']
+});
+
+var hurtSound3 = new Howl({
+  urls: ['hurtsound3.m4a']
+});
+
+var hurtSounds = [hurtSound1, hurtSound2, hurtSound3];
+
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
@@ -77,6 +91,7 @@ window.shoot = function() {
   var intersects = raycaster.intersectObjects(scene.children);
   if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
     console.log('Enemy hit!');
+    hurtSounds[Math.floor(Math.random()*hurtSounds.length)].play();
     intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
     intersects[0].object.translateY(-0.8);
     enemies = enemies.filter(function(e) {
@@ -113,7 +128,6 @@ var createMap = function(matrix) {
 var player = createPlayer();
 createMap(sampleMap);
 camera.add(player);
-
 var cameraBBox = new THREE.BoundingBoxHelper(camera);
 
 function render() {
