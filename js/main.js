@@ -3,6 +3,7 @@ var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHe
 var controls = new THREE.FirstPersonControls( camera );
 var clock = new THREE.Clock();
 clock.start();
+var frustum = new THREE.Frustum();
 
 controls.movementSpeed = 0.1;
 controls.lookSpeed = 0.01;
@@ -119,6 +120,18 @@ var enemyAI = function() {
   enemies.forEach(function(enemy) {
     enemy.lookAt(camera.position);
     enemy.translateZ(0.01);
+  });
+};
+
+var enemyShot = function() {
+  enemies.forEach(function(enemy) {
+  });
+};
+
+var checkFrustum = function() {
+  frustum.setFromMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
+  enemies.forEach(function(enemy, i) {
+    console.log('Enemy at index', i, 'visible state: ', frustum.intersectsSprite(enemy));
   });
 };
 
