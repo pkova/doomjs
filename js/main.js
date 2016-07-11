@@ -6,6 +6,7 @@ controls.movementSpeed = 0.1;
 controls.lookSpeed = 0.01;
 controls.noFly = true;
 controls.lookVertical = false;
+controls.mouseLook = true;
 
 camera.position.z = 5;
 

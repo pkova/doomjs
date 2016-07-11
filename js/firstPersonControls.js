@@ -251,7 +251,9 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 		targetPosition.y = position.y + 100 * Math.cos( this.phi );
 		targetPosition.z = position.z + 100 * Math.sin( this.phi ) * Math.sin( this.theta );
 
-		this.object.lookAt( targetPosition );
+    if ( this.mouseLook ) {
+		  this.object.lookAt( targetPosition );
+    }
 
 	};
 
