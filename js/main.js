@@ -19,6 +19,8 @@ document.body.appendChild( renderer.domElement );
 
 var raycaster = new THREE.Raycaster();
 
+var enemies = [];
+
 var sampleMap = [
   [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 'X', 0, 0, 0, 0, 0],
@@ -56,6 +58,7 @@ var createEnemy = function(x, y, z) {
   var material = new THREE.SpriteMaterial( { map: map } );
   var sprite = new THREE.Sprite( material );
   sprite.position.set(x, y, z);
+  enemies.push(sprite);
   scene.add( sprite );;
 };
 
@@ -68,7 +71,7 @@ window.shoot = function() {
   window.setTimeout(function() {
     document.querySelector('.muzzle').style.display = 'none';
     document.querySelector('.gun').style.display = '';
-  }, 100)
+  }, 100);
 
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   var intersects = raycaster.intersectObjects(scene.children);
@@ -77,6 +80,13 @@ window.shoot = function() {
     scene.remove(intersects[0].object);
   }
   console.log(intersects);
+};
+
+var enemyAI = function() {
+  enemies.forEach(function(enemy) {
+    enemy.lookAt(camera.position);
+    enemy.translateZ(0.01);
+  });
 };
 
 var createMap = function(matrix) {
@@ -121,5 +131,6 @@ function render() {
     // console.log('no collision');
     controls.update(1);
   }
+  enemyAI();
 }
 render();

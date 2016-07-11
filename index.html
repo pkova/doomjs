@@ -4,9 +4,10 @@
 		<meta charset=utf-8>
 		<title>My first Three.js app</title>
 		<style>
-			body { margin: 0; }
-			canvas { position: absolute; width: 100%; height: 100%; }
-      img { position:fixed; bottom: 0; right: 0; width: 85%; }
+		 body { margin: 0; }
+		 canvas { position: absolute; width: 100%; height: 100%; }
+     .gun { position:fixed; bottom: 0; right: 0; width: 85%; }
+     .muzzle { position:fixed; bottom: 0; right: 0; width: 85% }
 		</style>
 	</head>
 	<body>
@@ -14,6 +15,7 @@
 		<script src="js/three.js"></script>
 		<script src="js/firstPersonControls.js"></script>
 		<script src="js/main.js"></script>
-    <img src="gunsprite.png" >
+    <img class="gun" src="gunsprite.png" >
+    <img class="muzzle" src="gun_muzzle.png" style="display:none;" >
 	</body>
 </html>
