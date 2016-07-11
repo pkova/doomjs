@@ -34,6 +34,7 @@ document.body.appendChild( renderer.domElement );
 var raycaster = new THREE.Raycaster();
 
 var enemies = [];
+var walls = [];
 
 var sampleMap = [
   [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -53,9 +54,6 @@ var createPlayer = function() {
 var checkCollision = function() {
 
   cameraBBox.update();
-  var walls = scene.children.slice();
-  walls.pop();
-  walls.pop();
   for (var i = 0; i < walls.length; i++) {
     var mesh = walls[i];
     var meshBBox = new THREE.BoundingBoxHelper(mesh);
@@ -118,7 +116,7 @@ var createMap = function(matrix) {
         var segment = new THREE.Mesh(geometry, material);
         segment.position.set(xIdx*10, 0, yIdx*10);
         scene.add(segment);
-        return segment;
+        walls.push(segment);
       } else if (coord === 'X') {
         createEnemy(xIdx*10, 0, yIdx*10);
       }
