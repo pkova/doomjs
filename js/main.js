@@ -16,27 +16,12 @@ document.body.appendChild( renderer.domElement );
 var raycaster = new THREE.Raycaster();
 
 var sampleMap = [
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1],
+  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+  [0, 0, 0, 0, 'X', 0, 0, 0, 0, 0],
+  [1, 0, 1, 0, 'X', 0, 0, 0, 0, 0],
+  [1, 0, 0, 0, 'X', 'X', 0, 0, 0, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
-
-var createMap = function(matrix) {
-  window.arr = matrix.map(function(arr, yIdx) {
-    return arr.map(function(coord, xIdx) {
-      if (coord === 1) {
-        var geometry = new THREE.BoxGeometry(10, 3, 10);
-        var material = new THREE.MeshNormalMaterial();
-        var segment = new THREE.Mesh(geometry, material);
-        segment.position.set(xIdx*10, 0, yIdx*10);
-        scene.add(segment);
-        return segment;
-      }
-    });
-  });
-};
 
 var createPlayer = function() {
   var geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -62,24 +47,44 @@ var checkCollision = function() {
   return false;
 };
 
-var createEnemy = function() {
+var createEnemy = function(x, y, z) {
   var map = new THREE.TextureLoader().load( "formerhuman.png" );
   var material = new THREE.SpriteMaterial( { map: map } );
   var sprite = new THREE.Sprite( material );
+  sprite.position.set(x, y, z);
   scene.add( sprite );;
 };
 
 window.shoot = function() {
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   var intersects = raycaster.intersectObjects(scene.children);
+  if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
+    console.log('Enemy hit!');
+    scene.remove(intersects[0].object);
+  }
   console.log(intersects);
+};
+
+var createMap = function(matrix) {
+  window.arr = matrix.map(function(arr, yIdx) {
+    return arr.map(function(coord, xIdx) {
+      if (coord === 1) {
+        var geometry = new THREE.BoxGeometry(10, 3, 10);
+        var material = new THREE.MeshNormalMaterial();
+        var segment = new THREE.Mesh(geometry, material);
+        segment.position.set(xIdx*10, 0, yIdx*10);
+        scene.add(segment);
+        return segment;
+      } else if (coord === 'X') {
+        createEnemy(xIdx*10, 0, yIdx*10);
+      }
+    });
+  });
 };
 
 var player = createPlayer();
 createMap(sampleMap);
 camera.add(player);
-
-createEnemy();
 
 var cameraBBox = new THREE.BoundingBoxHelper(camera);
 
