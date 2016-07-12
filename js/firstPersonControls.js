@@ -142,6 +142,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 		switch ( event.keyCode ) {
 
+      case 32: /*space*/
       case 17: /*ctrl*/ window.shoot(); break;
 
 			case 38: /*up*/
