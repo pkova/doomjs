@@ -147,7 +147,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
         var intro = document.querySelector('.intro').style;
         intro.opacity = 1;
         // Fade out div with logo
-        (function fade(){(intro.opacity-=.1)<0?intro.display="none":setTimeout(fade,40)})();
+        (function fade(){(intro.opacity-=.1)<0?intro.display="none":setTimeout(fade,120)})();
 
         document.querySelector('.gun').style.display = '';
         document.querySelector('span').style.display = '';

@@ -12,7 +12,7 @@ controls.lookVertical = false;
 controls.mouseLook = true;
 
 var theme = new Howl({
-  urls: ['theme.mp3'],
+  urls: ['theme.m4a'],
   loop: true,
   volume: 0.8
 });
@@ -61,9 +61,6 @@ var mapGenerator = function(width, height) {
   width = Math.floor(width / 2);
   height = Math.floor(height / 2);
   var level = display(maze(width, height));
-  for (var i = 0; i < level.length; i++) {
-    level[i][level[0].length - 1] = 1;
-  }
 
   loop1:
   for (var i = 1; i < level[0].length; i++) {
