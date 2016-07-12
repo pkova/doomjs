@@ -15,7 +15,9 @@
      .cross {position: relative; width: 30%; bottom: 37px; left: 8px; }
      span { position: absolute; bottom:0; left: 43%; font-size: 8em; color: red;}
      h1 { position: absolute; top: 35%; left: 43%; color: red; }
-     h2 { position: absolute; top: 40%; left: 40%; color: red; }
+     h2 { color: red; }
+     .refresh { position: absolute; top: 47%; left: 40%; }
+     .count { position: absolute; top: 42%; left: 42%; }
 		</style>
 	</head>
 	<body>
@@ -35,7 +37,10 @@
       <span>100</span>
       <img class="cross" src="hp.png" >
     </div>
-    <h1 class="dead" style="display:none">You are dead</h1>
-    <h2 style="display:none">Refresh page to try again</h2>
+    <div class="gameover" style="display:none">
+      <h1 class="dead">You are dead</h1>
+      <h2 class="count">You killed 0 enemies</h2>
+      <h2 class="refresh">Refresh page to try again</h2>
+    </div>
 	</body>
 </html>

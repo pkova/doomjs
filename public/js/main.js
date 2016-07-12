@@ -47,6 +47,7 @@ var alreadyPlayed = false;
 var gameOver = false;
 var UNITSIZE = 5;
 var gameStarted = false;
+var killCount = 0;
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -156,10 +157,11 @@ window.shoot = function() {
 
   if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
     console.log('Enemy hit!');
-    hurtSounds[Math.floor(Math.random()*hurtSounds.length)].play();
+    hurtSounds[getRandomInt(0, hurtSounds.length)].play();
     intersects[0].object.material.map = formerHumanDeadSprite;
     intersects[0].object.translateY(-0.5);
     intersects[0].object.userData.dead = true;
+    killCount++;
     setTimeout(function() {
       intersects[0].object.matrixAutoUpdate = false;
     }, 500);
@@ -296,7 +298,6 @@ function render() {
     scene.updateMatrixWorld();
   } else {
     // Show game over screen
-    document.querySelector('.dead').style.display = '';
-    document.querySelector('h2').style.display = '';
+    document.querySelector('.gameover').style.display = '';
   }
 }
