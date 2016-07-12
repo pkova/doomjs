@@ -151,6 +151,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
         document.querySelector('.gun').style.display = '';
         document.querySelector('.hp').style.display = '';
+        document.querySelector('span').innerText = health;
         render();
         gameStarted = true;
         theme.play();

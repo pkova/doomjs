@@ -47,7 +47,8 @@ var alreadyPlayed = false;
 var gameOver = false;
 var UNITSIZE = 5;
 var gameStarted = false;
-var killCount = 0;
+var killCount = window.sessionStorage.getItem('count') || 0;
+var health = window.sessionStorage.getItem('health') > 0 ? window.sessionStorage.getItem('health') : 100;
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -169,6 +170,11 @@ window.shoot = function() {
     enemies = enemies.filter(function(e) {
       return e.id !== intersects[0].object.id;
     });
+    if (enemies.length === 0) {
+      window.sessionStorage.setItem('count', killCount);
+      window.sessionStorage.setItem('health', health);
+      location.reload();
+    }
   }
 };
 
@@ -221,7 +227,6 @@ var enemyShot = function() {
 };
 
 var decrementHealth = function(amount) {
-  var health = parseInt(document.querySelector('span').innerText, 10);
   health = health - amount;
   if (health <= 0) {
     gameOver = true;
@@ -299,7 +304,10 @@ function render() {
   } else {
     // Show game over screen
     console.log(killCount);
+    document.querySelector('span').style.display = 'none';
     document.querySelector('.count').innerText = 'You killed ' + killCount + ' enemies';
+    window.sessionStorage.setItem('count', 0);
+    window.sessionStorage.setItem('health', 0);
     document.querySelector('.gameover').style.display = '';
   }
 }
