@@ -50,16 +50,41 @@ var raycaster = new THREE.Raycaster();
 var enemies = [];
 var walls = [];
 
+var mapGenerator = function(width, height) {
+  width = Math.floor(width / 2);
+  height = Math.floor(height / 2);
+  var level = display(maze(width, height));
+  for (var i = 0; i < level.length; i++) {
+    level[i][level[0].length - 1] = 1;
+  }
 
-var sampleMap = [
-  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 0, 0, 'X', 'X', 'X', 'X', 0, 0],
-  [1, 0, 1, 'H', 'X', 1, 'X', 0, 0, 0],
-  [1, 0, 0, 0, 'X', 1, 'X', 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
-];
+  loop1:
+  for (var i = 1; i < level[0].length; i++) {
+    for (var j = 0; j < level.length; j++) {
+      if (level[i][j] === 0) {
+        level[i][j] = 'H';
+        break loop1;
+      }
+    }
+  }
+
+  var enemySpawnRate = 0.5;
+
+  for (var i = 0; i < level.length; i++) {
+    for (var j = 0; j < level[0].length; j++) {
+      console.log(i, j);
+      if (level[i][j] === 0) {
+        if (Math.random() > enemySpawnRate) {
+          level[i][j] = 'X';
+        }
+      }
+    }
+  }
+
+  return level;
+};
+
+var sampleMap = mapGenerator(10, 10);
 
 var mapWidth = sampleMap.length;
 var mapHeight = sampleMap[0].length;
