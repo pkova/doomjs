@@ -298,6 +298,8 @@ function render() {
     scene.updateMatrixWorld();
   } else {
     // Show game over screen
+    console.log(killCount);
+    document.querySelector('.count').innerText = 'You killed ' + killCount + ' enemies';
     document.querySelector('.gameover').style.display = '';
   }
 }
