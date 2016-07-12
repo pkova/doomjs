@@ -170,9 +170,20 @@ window.shoot = function() {
   }
 };
 
+var wallsFixed = false;
+
 var enemyAI = function() {
   if (Math.floor(clock.getElapsedTime()) % 5 === 1) {
     alreadyPlayed = false;
+
+    // Declare walls as static for optimization purposes
+    // done here because rendering is surely complete at this point
+    if (!wallsFixed) {
+      walls.forEach(function(wall) {
+        wall.matrixAutoUpdate = false;
+      });
+      wallsFixed = true;
+    }
   }
   if (Math.floor(clock.getElapsedTime()) % 5 === 0 && !alreadyPlayed) {
     alreadyPlayed = true;
