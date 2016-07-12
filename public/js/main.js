@@ -115,8 +115,10 @@ window.checkCollision = function() {
   return false;
 };
 
+var formerHumanSprite = new THREE.TextureLoader().load( "formerhuman.png" );
+
 var createEnemy = function(x, y, z) {
-  var map = new THREE.TextureLoader().load( "formerhuman.png" );
+  var map = formerHumanSprite;
   var material = new THREE.SpriteMaterial( { map: map } );
   var sprite = new THREE.Sprite( material );
   sprite.position.set(x, y, z);
@@ -179,14 +181,16 @@ var enemyAI = function() {
   });
 };
 
+var shootSprite = new THREE.TextureLoader().load( 'formerhuman_shoot.png' );
+
 var enemyShot = function() {
   var seenEnemies = checkFrustum();
   console.log(seenEnemies);
   seenEnemies.forEach(function(enemy) {
-    enemy.material.map = new THREE.TextureLoader().load( 'formerhuman_shoot.png' );
+    enemy.material.map = shootSprite;
     setTimeout(function() {
       if (!enemy.userData.dead) {
-        enemy.material.map = new THREE.TextureLoader().load( 'formerhuman.png' );
+        enemy.material.map = formerHumanSprite;
       }
     }, 500);
     enemyShootSound.play();
