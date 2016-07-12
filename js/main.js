@@ -40,6 +40,7 @@ var hurtSounds = [hurtSound1, hurtSound2, hurtSound3];
 
 var alreadyPlayed = false;
 var gameOver = false;
+var UNITSIZE = 5;
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -210,18 +211,18 @@ var createMap = function(matrix) {
   window.arr = matrix.map(function(arr, yIdx) {
     return arr.map(function(coord, xIdx) {
       if (coord === 1) {
-        var geometry = new THREE.BoxGeometry(10, 3, 10);
+        var geometry = new THREE.BoxGeometry(UNITSIZE, 3, UNITSIZE);
         var material = new THREE.MeshNormalMaterial();
         var segment = new THREE.Mesh(geometry, material);
-        segment.position.set(xIdx*10, 0, yIdx*10);
+        segment.position.set(xIdx*UNITSIZE, 0, yIdx*UNITSIZE);
         scene.add(segment);
         walls.push(segment);
       } else if (coord === 'X') {
         // Enemies
-        createEnemy(xIdx*10, 0, yIdx*10);
+        createEnemy(xIdx*UNITSIZE, 0, yIdx*UNITSIZE);
       } else if (coord === 'H') {
         // Hero
-        camera.position.set(xIdx*10, 0, yIdx*10);
+        camera.position.set(xIdx*UNITSIZE, 0, yIdx*UNITSIZE);
       }
     });
   });
