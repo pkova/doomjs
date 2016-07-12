@@ -120,6 +120,7 @@ var createEnemy = function(x, y, z) {
   var material = new THREE.SpriteMaterial( { map: map } );
   var sprite = new THREE.Sprite( material );
   sprite.position.set(x, y, z);
+  sprite.userData.dead = false;
   enemies.push(sprite);
   scene.add( sprite );;
 };
@@ -155,6 +156,7 @@ window.shoot = function() {
     hurtSounds[Math.floor(Math.random()*hurtSounds.length)].play();
     intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
     intersects[0].object.translateY(-0.5);
+    intersects[0].object.userData.dead = true;
     enemies = enemies.filter(function(e) {
       return e.id !== intersects[0].object.id;
     });
@@ -181,6 +183,12 @@ var enemyShot = function() {
   var seenEnemies = checkFrustum();
   console.log(seenEnemies);
   seenEnemies.forEach(function(enemy) {
+    enemy.material.map = new THREE.TextureLoader().load( 'formerhuman_shoot.png' );
+    setTimeout(function() {
+      if (!enemy.userData.dead) {
+        enemy.material.map = new THREE.TextureLoader().load( 'formerhuman.png' );
+      }
+    }, 500);
     enemyShootSound.play();
     var chanceToHit = 0.5;
     if (Math.random() > chanceToHit) {
