@@ -50,6 +50,7 @@ var raycaster = new THREE.Raycaster();
 var enemies = [];
 var walls = [];
 
+
 var sampleMap = [
   [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
   [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
