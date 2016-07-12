@@ -52,11 +52,16 @@ var walls = [];
 
 var sampleMap = [
   [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 'X', 'X', 'X', 'X', 0, 0],
   [1, 0, 1, 'H', 'X', 1, 'X', 0, 0, 0],
   [1, 0, 0, 0, 'X', 1, 'X', 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
+
+var mapWidth = sampleMap.length;
+var mapHeight = sampleMap[0].length;
 
 var createPlayer = function() {
   var geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -120,7 +125,7 @@ window.shoot = function() {
     intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
     intersects[0].object.translateY(-0.5);
     enemies = enemies.filter(function(e) {
-      return e.uuid !== intersects[0].object.uuid;
+      return e.id !== intersects[0].object.id;
     });
   }
 };
@@ -135,7 +140,9 @@ var enemyAI = function() {
   }
   enemies.forEach(function(enemy) {
     enemy.lookAt(camera.position);
-    enemy.translateZ(0.01);
+    if (camera.position.distanceTo(enemy.position) < 20) {
+      enemy.translateZ(0.03);
+    }
   });
 };
 
@@ -184,8 +191,10 @@ var createMap = function(matrix) {
         scene.add(segment);
         walls.push(segment);
       } else if (coord === 'X') {
+        // Enemies
         createEnemy(xIdx*10, 0, yIdx*10);
       } else if (coord === 'H') {
+        // Hero
         camera.position.set(xIdx*10, 0, yIdx*10);
       }
     });
