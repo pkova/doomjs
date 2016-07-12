@@ -10,6 +10,8 @@
      .muzzle { position:fixed; bottom: 0; right: 0; width: 85% }
      .logo { position: absolute; top: 15%; left: 28%;}
      .pressStart { position: absolute; top: 60%; left: 40% }
+     .hp { position: absolute; bottom:0; left: 43%; }
+     .cross {position: relative; width: 30%; bottom: 37px; left: 8px; }
      span { position: absolute; bottom:0; left: 43%; font-size: 8em; color: red;}
      h1 { position: absolute; top: 35%; left: 43%; color: red; }
      h2 { position: absolute; top: 40%; left: 40%; color: red; }
@@ -27,7 +29,10 @@
     </div>
     <img class="gun" src="gunsprite.png" style="display:none" >
     <img class="muzzle" src="gun_muzzle.png" style="display:none;" >
-    <span style="display:none">100</span>
+    <div class="hp" style="display:none">
+      <span>100</span>
+      <img class="cross" src="hp.png" >
+    </div>
     <h1 class="dead" style="display:none">You are dead</h1>
     <h2 style="display:none">Refresh page to try again</h2>
 	</body>

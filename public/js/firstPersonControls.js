@@ -150,7 +150,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
         (function fade(){(intro.opacity-=.1)<0?intro.display="none":setTimeout(fade,120)})();
 
         document.querySelector('.gun').style.display = '';
-        document.querySelector('span').style.display = '';
+        document.querySelector('.hp').style.display = '';
         render();
         gameStarted = true;
         theme.play();
