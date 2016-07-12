@@ -116,6 +116,7 @@ window.checkCollision = function() {
 };
 
 var formerHumanSprite = new THREE.TextureLoader().load( "formerhuman.png" );
+var formerHumanDeadSprite = new THREE.TextureLoader().load( "deadv2.png" );
 
 var createEnemy = function(x, y, z) {
   var map = formerHumanSprite;
@@ -156,7 +157,7 @@ window.shoot = function() {
   if (intersects.length !== 0 && intersects[0].object.type === "Sprite") {
     console.log('Enemy hit!');
     hurtSounds[Math.floor(Math.random()*hurtSounds.length)].play();
-    intersects[0].object.material.map = new THREE.TextureLoader().load( "deadv2.png" );
+    intersects[0].object.material.map = formerHumanDeadSprite;
     intersects[0].object.translateY(-0.5);
     intersects[0].object.userData.dead = true;
     enemies = enemies.filter(function(e) {
