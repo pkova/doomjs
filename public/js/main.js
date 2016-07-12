@@ -93,13 +93,6 @@ var sampleMap = mapGenerator(10, 10);
 var mapWidth = sampleMap.length;
 var mapHeight = sampleMap[0].length;
 
-var createPlayer = function() {
-  var geometry = new THREE.BoxGeometry(1, 1, 1);
-  var material = new THREE.MeshNormalMaterial();
-  var playerCube = new THREE.Mesh(geometry, material);
-  return playerCube;
-};
-
 window.checkCollision = function() {
 
   cameraBBox.update();
@@ -202,6 +195,7 @@ var getRandomInt = function(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+// Check whether enemies are in front of camera
 var checkFrustum = function() {
   frustum.setFromMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
   return enemies.filter(function(enemy) {
@@ -251,9 +245,7 @@ var createMap = function(matrix) {
   createPlane(0xff0000, 3);
 };
 
-var player = createPlayer();
 createMap(sampleMap);
-camera.add(player);
 var cameraBBox = new THREE.BoundingBoxHelper(camera);
 
 
