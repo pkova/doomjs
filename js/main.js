@@ -220,14 +220,13 @@ var cameraBBox = new THREE.BoundingBoxHelper(camera);
 
 function render() {
   if (!gameOver) {
-    // This boolean is for mitigating getting stuck on walls
 	  requestAnimationFrame(render);
 	  renderer.render(scene, camera);
-      // console.log('no collision');
     controls.update(1);
     enemyAI();
     scene.updateMatrixWorld();
   } else {
+    // Show game over screen
     document.querySelector('h1').style.display = '';
     document.querySelector('h2').style.display = '';
   }
