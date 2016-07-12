@@ -160,6 +160,10 @@ window.shoot = function() {
     intersects[0].object.material.map = formerHumanDeadSprite;
     intersects[0].object.translateY(-0.5);
     intersects[0].object.userData.dead = true;
+    setTimeout(function() {
+      intersects[0].object.matrixAutoUpdate = false;
+    }, 500);
+
     enemies = enemies.filter(function(e) {
       return e.id !== intersects[0].object.id;
     });
