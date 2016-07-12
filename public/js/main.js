@@ -62,15 +62,16 @@ var mapGenerator = function(width, height) {
   height = Math.floor(height / 2);
   var level = display(maze(width, height));
 
-  loop1:
-  for (var i = 1; i < level[0].length; i++) {
-    for (var j = 0; j < level.length; j++) {
-      if (level[i][j] === 0) {
-        level[i][j] = 'H';
-        break loop1;
+  (function placeHero() {
+    for (var i = 1; i < level[0].length; i++) {
+      for (var j = 0; j < level.length; j++) {
+        if (level[i][j] === 0) {
+          level[i][j] = 'H';
+          return;
+        }
       }
     }
-  }
+  })();
 
   var enemySpawnRate = 0.5;
 
@@ -92,6 +93,13 @@ var sampleMap = mapGenerator(10, 10);
 
 var mapWidth = sampleMap.length;
 var mapHeight = sampleMap[0].length;
+
+var createPlayer = function() {
+  var geometry = new THREE.BoxGeometry(1, 1, 1);
+  var material = new THREE.MeshNormalMaterial();
+  var playerCube = new THREE.Mesh(geometry, material);
+  return playerCube;
+};
 
 window.checkCollision = function() {
 
@@ -245,7 +253,9 @@ var createMap = function(matrix) {
   createPlane(0xff0000, 3);
 };
 
+var player = createPlayer();
 createMap(sampleMap);
+camera.add(player);
 var cameraBBox = new THREE.BoundingBoxHelper(camera);
 
 
