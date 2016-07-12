@@ -41,6 +41,7 @@ var hurtSounds = [hurtSound1, hurtSound2, hurtSound3];
 var alreadyPlayed = false;
 var gameOver = false;
 var UNITSIZE = 5;
+var gameStarted = false;
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -267,4 +268,3 @@ function render() {
     document.querySelector('h2').style.display = '';
   }
 }
-render();

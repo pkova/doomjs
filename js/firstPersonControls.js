@@ -142,7 +142,18 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 		switch ( event.keyCode ) {
 
-      case 32: /*space*/
+    case 32: /*space*/
+      if (!gameStarted) {
+        var intro = document.querySelector('.intro').style;
+        intro.opacity = 1;
+        // Fade out div with logo
+        (function fade(){(intro.opacity-=.1)<0?intro.display="none":setTimeout(fade,40)})();
+
+        document.querySelector('.gun').style.display = '';
+        document.querySelector('span').style.display = '';
+        render();
+        gameStarted = true;
+      }
       case 17: /*ctrl*/ window.shoot(); break;
 
 			case 38: /*up*/
