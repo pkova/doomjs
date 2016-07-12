@@ -11,6 +11,11 @@ controls.noFly = true;
 controls.lookVertical = false;
 controls.mouseLook = true;
 
+var theme = new Howl({
+  urls: ['theme.mp3'],
+  loop: true,
+  volume: 0.8
+});
 
 var pistolSound = new Howl({
   urls: ['pistol.m4a']

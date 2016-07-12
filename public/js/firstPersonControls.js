@@ -153,6 +153,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
         document.querySelector('span').style.display = '';
         render();
         gameStarted = true;
+        theme.play();
       }
       case 17: /*ctrl*/ window.shoot(); break;
 
