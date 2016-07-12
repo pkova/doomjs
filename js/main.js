@@ -65,7 +65,7 @@ var createPlayer = function() {
   return playerCube;
 };
 
-var checkCollision = function() {
+window.checkCollision = function() {
 
   cameraBBox.update();
   for (var i = 0; i < walls.length; i++) {
@@ -221,23 +221,10 @@ var cameraBBox = new THREE.BoundingBoxHelper(camera);
 function render() {
   if (!gameOver) {
     // This boolean is for mitigating getting stuck on walls
-    var collided = false;
 	  requestAnimationFrame(render);
 	  renderer.render(scene, camera);
-    if (checkCollision() && !collided) {
-      console.log('collision');
-      collided = true;
-
-      controls.moveForward = false;
-      controls.moveLeft = false;
-      controls.moveRight = false;
-      controls.moveBackward = false;
-
-      controls.update(1);
-    } else {
       // console.log('no collision');
-      controls.update(1);
-    }
+    controls.update(1);
     enemyAI();
     scene.updateMatrixWorld();
   } else {
