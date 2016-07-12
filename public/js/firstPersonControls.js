@@ -198,7 +198,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 		}
 
 	};
-
+  
 	this.update = function( delta ) {
 
 		if ( this.enabled === false ) return;

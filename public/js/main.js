@@ -269,7 +269,7 @@ function render() {
     scene.updateMatrixWorld();
   } else {
     // Show game over screen
-    document.querySelector('h1').style.display = '';
+    document.querySelector('.dead').style.display = '';
     document.querySelector('h2').style.display = '';
   }
 }
